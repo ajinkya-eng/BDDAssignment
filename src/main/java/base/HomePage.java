@@ -8,10 +8,10 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class HomePage {
+public class HomePage extends BasePage{
 
-    public HomePage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public HomePage() {
+        super();
     }
 
     @FindBy(how = How.XPATH, using = "//span[text()='Admin']")
@@ -44,10 +44,29 @@ public class HomePage {
     @FindBy(how = How.XPATH, using = "//button[text()=' Save ']")
     private WebElement btnSave;
 
-    public void addUser(String inputRole, String employeeName, String inputStatus,
-                                         String createUserName, String password) throws InterruptedException {
+    @FindBy(how = How.XPATH, using = "//div[contains(text(),'employ')]/following-sibling::div")
+    private List<WebElement> employeeNames;
+
+    public WebElement getFuncAdmin() {
+        return funcAdmin;
+    }
+
+    public void clickAdmin() {
         funcAdmin.click();
+    }
+
+    public WebElement getBtnAddUser() {
+        return btnAddUser;
+    }
+
+    public void setBtnAddUser() {
         btnAddUser.click();
+    }
+
+    ////div[contains(text(),'employ')]/following-sibling::div
+
+    public void addUser(String inputRole, String employeeName, String inputStatus,
+                        String createUserName, String password) throws InterruptedException {
         selectUserRole.click();
         getFromDropdown(selectFromDropdown, inputRole);
         txtEmployeeName.sendKeys(employeeName);

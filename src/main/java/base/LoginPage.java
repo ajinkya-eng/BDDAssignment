@@ -6,10 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+public class LoginPage extends BasePage{
 
-    public LoginPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public LoginPage() {
+        super();
     }
 
     @FindBy(how = How.NAME, using = "username")
@@ -20,6 +20,31 @@ public class LoginPage {
 
     @FindBy(how = How.XPATH, using = "//button[@type='submit']")
     private WebElement btnSubmit;
+
+
+    public WebElement getTxtUsername() {
+        return txtUsername;
+    }
+
+    public void setTxtUsername(String username) {
+        txtUsername.sendKeys(username);
+    }
+
+    public WebElement getTxtPassword() {
+        return txtPassword;
+    }
+
+    public void setTxtPassword(String password) {
+        txtPassword.sendKeys(password);
+    }
+
+    public WebElement getBtnSubmit() {
+        return btnSubmit;
+    }
+
+    public void clickSubmitButton() {
+        btnSubmit.click();
+    }
 
     public void clickLogin(String username, String password){
         txtUsername.sendKeys(username);
