@@ -6,6 +6,8 @@ import base.LoginPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java8.En;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -15,33 +17,42 @@ public class MyStepdefs implements En {
 
     LoginPage loginPage;
     HomePage homePage;
+
+    private static final Logger logger = LogManager.getLogger(MyStepdefs.class.getName());
     public MyStepdefs() {
 
         Given("^I am on Orange HRM login page$", () -> {
+            logger.info("Started launching URL");
             driverContext.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
         });
 
         When("^I enter username as (.+)$", (String username) -> {
+            logger.info("Entering Username");
             loginPage.setTxtUsername(username);
+            logger.info("Username Entered");
         });
 
 
         And("^I enter password as (.+)$", (String password) -> {
+            logger.info("Entering password");
             loginPage.setTxtPassword(password);
         });
 
 
         And("^I click on Submit$", () -> {
             loginPage.clickSubmitButton();
+            logger.info("Clicked on Submit button ... on Login Page");
         });
 
         When("^I click on Admin option$", () -> {
             homePage.clickAdmin();
+            logger.info("Clicking on Admin option");
         });
 
 
         And("^I click on Add button$", () -> {
             homePage.setBtnAddUser();
+            logger.info("Clicking on Add button");
         });
 
 
