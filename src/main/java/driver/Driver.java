@@ -19,7 +19,7 @@ public class Driver {
         driverContext.manage().window().maximize();
         driverContext.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         LoginPage loginPage = new LoginPage();
-        loginPage.clickLogin("Admin", "admin123");
+        loginPage.performLogin("Admin", "admin123");
 
         HomePage homePage = new HomePage();
         homePage.addUser("Admin", "Odis", "Enabled",

@@ -1,12 +1,10 @@
 package base;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
 
     public LoginPage() {
         super();
@@ -46,7 +44,7 @@ public class LoginPage extends BasePage{
         btnSubmit.click();
     }
 
-    public void clickLogin(String username, String password){
+    public void performLogin(String username, String password) {
         txtUsername.sendKeys(username);
         txtPassword.sendKeys(password);
         btnSubmit.submit();

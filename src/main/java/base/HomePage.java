@@ -3,7 +3,11 @@ package base;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class HomePage extends BasePage{
@@ -61,14 +65,12 @@ public class HomePage extends BasePage{
         btnAddUser.click();
     }
 
-    ////div[contains(text(),'employ')]/following-sibling::div
-
     public void addUser(String inputRole, String employeeName, String inputStatus,
                         String createUserName, String password) throws InterruptedException {
         selectUserRole.click();
         getFromDropdown(selectFromDropdown, inputRole);
         txtEmployeeName.sendKeys(employeeName);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         getFromDropdown(selectFromDropdown, employeeName);
         selectStatus.click();
         getFromDropdown(selectFromDropdown, inputStatus);
