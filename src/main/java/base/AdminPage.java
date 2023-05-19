@@ -80,4 +80,5 @@ public class AdminPage extends BasePage{
     public void setDeleteButtonList(List<WebElement> deleteButtonList) {
         this.deleteButtonList = deleteButtonList;
     }
+
 }

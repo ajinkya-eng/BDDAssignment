@@ -64,11 +64,27 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+      </plugin>
+      <plugin>
+        <groupId>net.masterthought</groupId>
+        <artifactId>maven-cucumber-reporting</artifactId>
+        <version>2.8.0</version>
+        <executions>
+          <execution>
+            <id>execution</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <projectName>BDDFrameworkAssignment</projectName>
+              <outputDirectory>target/cucumber-reports</outputDirectory>
+              <cucumberOutput>target/cucumber-reports/cucumber.json</cucumberOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

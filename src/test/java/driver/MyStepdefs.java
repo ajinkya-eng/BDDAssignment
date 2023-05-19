@@ -15,10 +15,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import static base.Base.driverContext;
 import static base.ConfigProperties.*;
@@ -119,6 +118,12 @@ public class MyStepdefs implements En {
                     break;
                 }
             }
+        });
+
+        Then("^I should not see User \"([^\"]*)\" details in Records found List$", (String user) -> {
+            List<WebElement> usernames = adminPage.getUsernameList();
+            List<String> usernameNames = usernames.stream().map(WebElement::getText).collect(Collectors.toList());
+            Assert.assertTrue("Username found", !usernameNames.contains(user));
         });
     }
 
