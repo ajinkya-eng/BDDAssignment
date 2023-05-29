@@ -1,7 +1,5 @@
 package hooks;
 
-import base.HomePage;
-import base.LoginPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,7 +26,10 @@ public class Hooks {
         URL = properties.getProperty("url");
         USERNAME = properties.getProperty("username");
         PASSWORD = properties.getProperty("password");
-        System.out.println("Chrome Driver: "+ CHROMEDRIVER);
+        DBCONNECTIONSTRING = properties.getProperty("DBConnectionString");
+        DBUSERNAME = properties.getProperty("DBusername");
+        DBPASSWORD =properties.getProperty("DBpassword");
+        QUERY = properties.getProperty("query");
 
         System.setProperty("webdriver.chrome.driver", CHROMEDRIVER);
         driverContext = new ChromeDriver();

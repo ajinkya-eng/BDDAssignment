@@ -10,11 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.CSVReader;
+import utilities.DBUtil;
+import utilities.SeleniumUtilities;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +29,8 @@ public class MyStepdefs implements En {
     AdminPage adminPage;
 
     private static final Logger logger = LogManager.getLogger(MyStepdefs.class.getName());
+
+    private static final String RESOURCES_PATH = "src/test/resources/";
 
 
     public MyStepdefs() {
@@ -91,20 +92,19 @@ public class MyStepdefs implements En {
         });
 
         And("^I select checkbox to Delete User \"([^\"]*)\"$", (String user) -> {
-            String checkboxXpath = adminPage.correspondingCheckboxXpath.replace("xyz",user);
-            logger.info("Effective xpath..."+checkboxXpath);
+            String checkboxXpath = adminPage.correspondingCheckboxXpath.replace("xyz", user);
+            logger.info("Effective xpath..." + checkboxXpath);
             driverContext.findElement(By.xpath(checkboxXpath)).click();
         });
 
         And("^I click on Delete button for User \"([^\"]*)\"$", (String user) -> {
-            String deleteXpath = adminPage.correspondingDeleteXpath.replace("xyz",user);
-            logger.info("Effective xpath..."+deleteXpath);
+            String deleteXpath = adminPage.correspondingDeleteXpath.replace("xyz", user);
+            logger.info("Effective xpath..." + deleteXpath);
             WebElement deleteButton = driverContext.findElement(By.xpath(deleteXpath));
-            WebDriverWait wait = new WebDriverWait(driverContext, Duration.of(10, ChronoUnit.SECONDS));
-            wait.until(ExpectedConditions.visibilityOf(deleteButton));
+            SeleniumUtilities seleniumUtilities = new SeleniumUtilities();
+            seleniumUtilities.waitTillElementVisible(deleteButton, 10);
             deleteButton.click();
-            WebDriverWait wait1 = new WebDriverWait(driverContext, Duration.of(10, ChronoUnit.SECONDS));
-            wait1.until(ExpectedConditions.visibilityOf(adminPage.getConfirmDelete()));
+            seleniumUtilities.waitTillElementVisible(adminPage.getConfirmDelete(), 10);
             adminPage.getConfirmDelete().click();
         });
 
@@ -124,6 +124,17 @@ public class MyStepdefs implements En {
             List<WebElement> usernames = adminPage.getUsernameList();
             List<String> usernameNames = usernames.stream().map(WebElement::getText).collect(Collectors.toList());
             Assert.assertTrue("Username found", !usernameNames.contains(user));
+            logger.info("User Successfully deleted");
+        });
+
+        And("^I compare DB data with csv file \"([^\"]*)\"$", (String csvFileName) -> {
+            DBUtil dbUtil = new DBUtil();
+            dbUtil.establishConnection(DBCONNECTIONSTRING, DBUSERNAME, DBPASSWORD, QUERY);
+            List<String> names = dbUtil.getRequiredColumnValues();
+            dbUtil.closeConnections();
+            List<String> records = CSVReader.readData(RESOURCES_PATH.concat(csvFileName));
+            Assert.assertTrue("Records didn't match",names.equals(records));
+            logger.info("DB and CSV data Matched !!!");
         });
     }
 
